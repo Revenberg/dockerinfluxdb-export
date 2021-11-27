@@ -28,6 +28,8 @@ def export(day):
     logging.info("INFO MODE")
     logging.debug("DEBUG MODE")
 
+    logging.debug(day)
+
     try:
         if INFLUXDB_USER and INFLUXDB_PASSWORD:
             logging.debug('InfluxDBClient 1')
@@ -63,6 +65,7 @@ def main():
 
     while True:
         schedule.run_pending()
+        logging.debug("test")
     
 if __name__ == '__main__':
         main()
