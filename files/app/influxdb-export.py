@@ -64,7 +64,8 @@ def main():
     schedule.every().hour.do(export, export='1')
     schedule.every().hour.do(export, export='0')
     schedule.every(3).minutes.do(job)
-
+    schedule.run_all()
+    
     logging.debug(datetime.today())
     logging.debug( schedule.get_jobs() )
 
