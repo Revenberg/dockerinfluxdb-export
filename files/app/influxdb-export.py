@@ -42,11 +42,14 @@ def main():
     today = datetime.today() - timedelta(days=0)
     todayyyymmdd = today.strftime('%Y-%m-%d')
 
-    q = INFLUXDB_SQL + (INFLUXDB_WHERE  % (todayyyymmdd, todayyyymmdd)))
+    q = INFLUXDB_SQL + (INFLUXDB_WHERE  % (todayyyymmdd, todayyyymmdd))
     logging.debug(q)
     result = influxdb_client.query(q)
     logging.debug("Result: {0}".format(result))
 
+    f = open(todayyyymmdd + ".json", "w")
+    f.write(result)
+    f.close()
 
 if __name__ == '__main__':
         main()
