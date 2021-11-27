@@ -1,4 +1,4 @@
 configparser
-requests
 influxdb
 schedule
+prometheus-client

@@ -9,8 +9,13 @@ import schedule
 import time
 from datetime import datetime, timedelta
 from influxdb import InfluxDBClient # via apt-get install python-influxdb
+from prometheus_client import Counter, Gauge, start_http_server
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
+PROMETHEUS_PREFIX = os.getenv("PROMETHEUS_PREFIX", "influxdb_export")
+PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", "9001"))
+PROMETHEUS_LABEL = os.getenv("PROMETHEUS_LABEL", "export")
+
 INFLUXDB_ADDRESS = os.getenv('INFLUXDB_ADDRESS', '127.0.0.1')
 INFLUXDB_PORT = int(os.getenv('INFLUX_PORT', "8086"))
 INFLUXDB_USER = os.getenv("INFLUXDB_USERNAME")
@@ -19,11 +24,16 @@ INFLUXDB_DATABASE = os.getenv("INFLUXDB_DATABASE", 'mqtt')
 INFLUXDB_SQL = os.getenv("INFLUXDB_SQL", 'select * from "infinite"."reading" ')
 INFLUXDB_WHERE = os.getenv("INFLUXDB_WHERE", " WHERE time >= '%s 00:00:00' and time < '%s 23:59:59' ")
 
-
 LOGFORMAT = '%(asctime)-15s %(message)s'
 
 logging.basicConfig(level=LOG_LEVEL, format=LOGFORMAT)
 LOG = logging.getLogger("influxdb-export")
+
+# global variable
+prom_metrics = {}  # pylint: disable=C0103
+prom_msg_counter = Counter(
+    f"{PROMETHEUS_PREFIX}message_total", "Counter of received messages", [PROMETHEUS_LABEL]
+)
 
 def exporting(day):
     logging.info("INFO MODE")
@@ -56,10 +66,23 @@ def exporting(day):
         f.writeln(json.dumps(row) + '\n')
     f.close()
 
-def job():
-    print("I'm working...")
+    # create metric if does not exist
+    prom_metric_name="influxdb-export"
+    if not prom_metrics.get(prom_metric_name):
+        prom_metrics[prom_metric_name] = Gauge(
+            prom_metric_name, "metric generated from MQTT message.", [PROMETHEUS_LABEL]
+        )
+        LOG.info("creating prometheus metric: %s", prom_metric_name)
 
+    # expose the metric to prometheus
+    prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: PROMETHEUS_LABEL}).set(len(result))
+    LOG.debug("new value for %s: %s", prom_metric_name, len(result))
+    
 def main():
+    # start prometheus server
+    start_http_server(PROMETHEUS_PORT)
+
+
     schedule.every(6).hour.do(exporting, day=1)
     schedule.every().hour.do(exporting, day=0)
     
@@ -72,4 +95,3 @@ def main():
     
 if __name__ == '__main__':
         main()
-        
