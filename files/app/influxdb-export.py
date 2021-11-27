@@ -14,9 +14,7 @@ INFLUXDB_USER = os.getenv("INFLUXDB_USERNAME")
 INFLUXDB_PASSWORD = os.getenv("INFLUXDB_PASSWORD")
 INFLUXDB_DATABASE = os.getenv("INFLUXDB_DATABASE", 'mqtt')
 INFLUXDB_SQL = os.getenv("INFLUXDB_SQL", 'select * from "infinite"."reading" ')
-INFLUXDB_WHERE = os.getenv("INFLUXDB_WHERE", " WHERE time =~ '2021-11-27' ")
-
-# INFLUXDB_WHERE = os.getenv("INFLUXDB_WHERE", " WHERE time >= '2021-11-27 00:00:00' and time < '2021-11-27 23:59:59' ")
+INFLUXDB_WHERE = os.getenv("INFLUXDB_WHERE", " WHERE time >= '%s 00:00:00' and time < '%s 23:59:59' ")
 
 
 LOGFORMAT = '%(asctime)-15s %(message)s'
@@ -41,10 +39,11 @@ def main():
 
     logging.debug('Connecting to the database %s' % INFLUXDB_DATABASE)
 
-    today = datetime.today() #- timedelta(days=1)
+    today = datetime.today() 
+    #- timedelta(days=1)
     todayyyymmdd = today.strftime('%Y-%m-%d')
 
-    q = INFLUXDB_SQL + (INFLUXDB_WHERE ) # % todayyyymmdd
+    q = INFLUXDB_SQL + (INFLUXDB_WHERE  % todayyyymmdd)
     logging.debug(q)
     result = influxdb_client.query(q)
     logging.debug("Result: {0}".format(result))
