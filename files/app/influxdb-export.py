@@ -67,7 +67,7 @@ def exporting(day):
     f.close()
 
     # create metric if does not exist
-    prom_metric_name="influxdb-export"
+    prom_metric_name="influxdb_export"
     if not prom_metrics.get(prom_metric_name):
         prom_metrics[prom_metric_name] = Gauge(
             prom_metric_name, "metric generated from MQTT message.", [PROMETHEUS_LABEL]
@@ -90,7 +90,7 @@ def main():
     logging.debug( schedule.get_jobs() )
 
     schedule.run_all()
-    
+
     while True:
         schedule.run_pending()
         time.sleep(1)
