@@ -14,7 +14,7 @@ INFLUXDB_USER = os.getenv("INFLUXDB_USERNAME")
 INFLUXDB_PASSWORD = os.getenv("INFLUXDB_PASSWORD")
 INFLUXDB_DATABASE = os.getenv("INFLUXDB_DATABASE", 'mqtt')
 INFLUXDB_SQL = os.getenv("INFLUXDB_SQL", 'select * from "infinite"."reading" ')
-INFLUXDB_WHERE = os.getenv("INFLUXDB_WHERE", ' WHERE time =~ /%s/ ')
+INFLUXDB_WHERE = os.getenv("INFLUXDB_WHERE", ' WHERE time =~ /2021-11-27/ ')
 
 LOGFORMAT = '%(asctime)-15s %(message)s'
 
