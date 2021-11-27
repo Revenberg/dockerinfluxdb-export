@@ -6,9 +6,9 @@ services:
     container_name: influxdb-export
     restart: always
     ports:
-      - 9001:9001
+      - 9003:9003
     expose:
-      - 9001
+      - 9003
     #volumes:
       # Data persistency
       # sudo mkdir -p /var/docker-compose/data/influxdb-export
@@ -19,3 +19,4 @@ services:
       - MQTT_TOPIC=reading/#
       - INFLUXDB_ADDRESS=192.168.2.71
       - INFLUXDB_PORT=8086
+      - PROMETHEUS_PORT=9003

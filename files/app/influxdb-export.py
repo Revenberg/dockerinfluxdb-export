@@ -13,7 +13,7 @@ from prometheus_client import Counter, Gauge, start_http_server
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
 PROMETHEUS_PREFIX = os.getenv("PROMETHEUS_PREFIX", "influxdb_export")
-PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", "9001"))
+PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", "9003"))
 PROMETHEUS_LABEL = os.getenv("PROMETHEUS_LABEL", "export")
 
 INFLUXDB_ADDRESS = os.getenv('INFLUXDB_ADDRESS', '127.0.0.1')
