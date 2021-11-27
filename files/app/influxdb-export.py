@@ -58,6 +58,7 @@ def export(day):
     f.close()
 
 def exports():
+    print("I'm working...")
     export(1)
     export(0)
 
