@@ -67,7 +67,7 @@ def main():
     while True:
         schedule.run_pending()
         logging.debug("test")
-        time.sleep(10)
+        time.sleep(60)
     
 if __name__ == '__main__':
         main()
