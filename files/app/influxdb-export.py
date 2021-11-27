@@ -25,7 +25,7 @@ LOGFORMAT = '%(asctime)-15s %(message)s'
 logging.basicConfig(level=LOG_LEVEL, format=LOGFORMAT)
 LOG = logging.getLogger("influxdb-export")
 
-def export(day):
+def exporting(day):
     logging.info("INFO MODE")
     logging.debug("DEBUG MODE")
 
@@ -61,11 +61,11 @@ def job():
     print("I'm working...")
 
 def main():
-    schedule.every().hour.do(export, export='1')
-    schedule.every().hour.do(export, export='0')
+    schedule.every().hour.do(exporting, export='1')
+    schedule.every().hour.do(exporting, export='0')
     schedule.every(3).minutes.do(job)
     schedule.run_all()
-    
+
     logging.debug(datetime.today())
     logging.debug( schedule.get_jobs() )
 
