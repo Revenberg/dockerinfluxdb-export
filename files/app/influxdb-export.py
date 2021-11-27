@@ -6,6 +6,7 @@ import json
 import sys
 import os
 import schedule
+import time
 from datetime import datetime, timedelta
 from influxdb import InfluxDBClient # via apt-get install python-influxdb
 
@@ -66,6 +67,7 @@ def main():
     while True:
         schedule.run_pending()
         logging.debug("test")
+        time.sleep(10)
     
 if __name__ == '__main__':
         main()
