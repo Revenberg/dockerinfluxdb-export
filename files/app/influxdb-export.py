@@ -4,12 +4,8 @@
 import logging
 import sys
 import os
-import datetime
-import time
-import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from datetime import datetime, timedelta
 from influxdb import InfluxDBClient # via apt-get install python-influxdb
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning) # suppress unverified cert warnings
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
 INFLUXDB_ADDRESS = os.getenv('INFLUXDB_ADDRESS', '127.0.0.1')
@@ -42,9 +38,10 @@ def main():
 
     logging.debug('Connecting to the database %s' % INFLUXDB_DATABASE)
 
-    from datetime import datetime
-    today = datetime.today().strftime('%Y-%m-%d')
-    result = influxdb_client.query(INFLUXDB_SQL + (INFLUXDB_WHERE % today))
+    today = datetime.today()- timedelta(days=1)
+    todayyyymmdd = today.strftime('%Y-%m-%d')
+
+    result = influxdb_client.query(INFLUXDB_SQL + (INFLUXDB_WHERE % todayyyymmdd))
     logging.debug("Result: {0}".format(result))
 
 
