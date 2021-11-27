@@ -89,6 +89,8 @@ def main():
     logging.debug(datetime.today())
     logging.debug( schedule.get_jobs() )
 
+    schedule.run_all()
+    
     while True:
         schedule.run_pending()
         time.sleep(1)
