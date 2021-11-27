@@ -5,6 +5,7 @@ import logging
 import json
 import sys
 import os
+import schedule
 from datetime import datetime, timedelta
 from influxdb import InfluxDBClient # via apt-get install python-influxdb
 
@@ -23,7 +24,7 @@ LOGFORMAT = '%(asctime)-15s %(message)s'
 logging.basicConfig(level=LOG_LEVEL, format=LOGFORMAT)
 LOG = logging.getLogger("influxdb-export")
 
-def main():
+def export(day):
     logging.info("INFO MODE")
     logging.debug("DEBUG MODE")
 
@@ -40,13 +41,12 @@ def main():
 
     logging.debug('Connecting to the database %s' % INFLUXDB_DATABASE)
 
-    today = datetime.today() - timedelta(days=0)
+    today = datetime.today() - timedelta(days=day)
     todayyyymmdd = today.strftime('%Y-%m-%d')
 
     q = INFLUXDB_SQL + (INFLUXDB_WHERE  % (todayyyymmdd, todayyyymmdd))
     logging.debug(q)
     result = influxdb_client.query(q)
-#    logging.debug("Result: {0}".format(result))
 
     f = open("/data/backup/" + todayyyymmdd + ".json", "w")
     for row in result.get_points():
@@ -54,5 +54,15 @@ def main():
         f.write(json.dumps(row))
     f.close()
 
+def exports():
+    export(1)
+    export(0)
+
+def main():
+    schedule.every().hour.do(exports)
+
+    while True:
+        schedule.run_pending()
+    
 if __name__ == '__main__':
         main()
