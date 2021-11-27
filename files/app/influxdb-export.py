@@ -51,7 +51,7 @@ def main():
     f = open(todayyyymmdd + ".json", "w")
     for row in result.get_points():
         logging.debug(json.dumps(row))
-        f.write(json.dumps((row))
+        f.write(json.dumps(row))
     
     f.close()
 
