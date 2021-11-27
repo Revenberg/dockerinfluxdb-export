@@ -12,7 +12,6 @@ import argparse # for arg parsing...
 import json # for parsing json
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-from multiprocessing import Process
 from datetime import datetime # for obtaining the curren time and formatting it
 from influxdb import InfluxDBClient # via apt-get install python-influxdb
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning) # suppress unverified cert warnings
