@@ -61,8 +61,8 @@ def job():
     print("I'm working...")
 
 def main():
-    schedule.every().hour.do(exporting, export='1')
-    schedule.every().hour.do(exporting, export='0')
+    schedule.every().hour.do(exporting, day='1')
+    schedule.every().hour.do(exporting, day='0')
     schedule.every(3).minutes.do(job)
     schedule.run_all()
 
