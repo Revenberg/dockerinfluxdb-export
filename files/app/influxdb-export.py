@@ -48,7 +48,10 @@ def main():
     logging.debug("Result: {0}".format(result))
 
     f = open(todayyyymmdd + ".json", "w")
-    f.write(result)
+    for row in result.get_points():
+        logging.debug(row)
+        f.write(row)
+    
     f.close()
 
 if __name__ == '__main__':
