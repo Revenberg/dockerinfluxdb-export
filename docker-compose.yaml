@@ -9,7 +9,7 @@ services:
       - 9001:9001
     expose:
       - 9001
-    volumes:
+    #volumes:
       # Data persistency
       # sudo mkdir -p /var/docker-compose/data/influxdb-export
       #- /var/docker-compose/data/influxdb-export/data/backup:/data/backup
