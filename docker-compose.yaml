@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  influxdb-export:
+    image: revenberg/influxdb-export:latest
+    container_name: influxdb-export
+    restart: always
+    environment:
+      - LOG_LEVEL=DEBUG
+      - MQTT_ADDRESS=192.168.2.71
+      - MQTT_TOPIC=reading/#
+      - INFLUXDB_ADDRESS=192.168.2.71
+      - INFLUXDB_PORT=8086
