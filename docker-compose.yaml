@@ -6,7 +6,7 @@ services:
     container_name: influxdb-export
     restart: always
     ports:
-      9001:9001
+      - 9001:9001
     expose:
       - 9001
     volumes:
