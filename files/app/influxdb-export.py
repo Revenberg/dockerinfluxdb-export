@@ -43,6 +43,7 @@ def main():
 
     q = INFLUXDB_SQL + (INFLUXDB_WHERE % todayyyymmdd)
     logging.debug(q)
+    q = INFLUXDB_SQL
     result = influxdb_client.query(q)
     logging.debug("Result: {0}".format(result))
 
