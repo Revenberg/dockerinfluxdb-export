@@ -83,7 +83,7 @@ def main():
     start_http_server(PROMETHEUS_PORT)
 
 
-    schedule.every(6).hours().do(exporting, day=1)
+    schedule.every(6).hours.do(exporting, day=1)
     schedule.every().hour.do(exporting, day=0)
     
     logging.debug(datetime.today())
