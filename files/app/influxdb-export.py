@@ -48,11 +48,10 @@ def main():
     result = influxdb_client.query(q)
 #    logging.debug("Result: {0}".format(result))
 
-    f = open(todayyyymmdd + ".json", "w")
+    f = open("/data/" + todayyyymmdd + ".json", "w")
     for row in result.get_points():
         logging.debug(json.dumps(row))
         f.write(json.dumps(row))
-    
     f.close()
 
 if __name__ == '__main__':
