@@ -33,19 +33,17 @@ def main():
     logging.info("INFO MODE")
     logging.debug("DEBUG MODE")
 
-    global influxdb_client
     try:
         if INFLUXDB_USER and INFLUXDB_PASSWORD:
             logging.debug('InfluxDBClient 1')
-            influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, INFLUXDB_PORT, INFLUXDB_USER, INFLUXDB_PASSWORD, None)
+            influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, INFLUXDB_PORT, INFLUXDB_USER, INFLUXDB_PASSWORD, INFLUXDB_DATABASE)
         else:
             logging.debug('InfluxDBClient 2')
-            influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, INFLUXDB_PORT)
+            influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, INFLUXDB_PORT, None, None, INFLUXDB_DATABASE)
     except:
         sys.stderr.write("Can't create influx connection\n")
         sys.exit(1)
 
-    logging.debug(influxdb_client)
     logging.debug('Connecting to the database %s' % INFLUXDB_DATABASE)
 
     result = influxdb_client.query(INFLUXDB_SQL)
