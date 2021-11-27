@@ -62,8 +62,10 @@ def exporting(day):
     result = influxdb_client.query(q)
 
     f = open("/data/backup/" + todayyyymmdd + ".json", "w")
+    i = 0
     for row in result.get_points():
         f.write(json.dumps(row) + '\n')
+        i = i + 1
     f.close()
 
     # create metric if does not exist
@@ -75,8 +77,8 @@ def exporting(day):
         LOG.info("creating prometheus metric: %s", prom_metric_name)
 
     # expose the metric to prometheus
-    prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: PROMETHEUS_LABEL}).set(len(result))
-    LOG.debug("new value for %s: %s", prom_metric_name, len(result))
+    prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: PROMETHEUS_LABEL}).set( i )
+    LOG.debug("new value for %s: %s", prom_metric_name, i)
     
 def main():
     # start prometheus server
