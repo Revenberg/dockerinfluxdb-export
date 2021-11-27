@@ -48,7 +48,7 @@ def main():
     result = influxdb_client.query(q)
 #    logging.debug("Result: {0}".format(result))
 
-    f = open("/data/" + todayyyymmdd + ".json", "w")
+    f = open("/data/backup/" + todayyyymmdd + ".json", "w")
     for row in result.get_points():
         logging.debug(json.dumps(row))
         f.write(json.dumps(row))
