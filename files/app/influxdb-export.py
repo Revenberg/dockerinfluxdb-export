@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""mqtt2influxdb"""
+"""influxdb-export"""
 
 import json
 import logging
@@ -32,25 +32,25 @@ LOG = logging.getLogger("influxdb-export")
 def main():
     logging.info("INFO MODE")
     logging.debug("DEBUG MODE")
-    
+
     global influxdb_client
     try:
         if INFLUXDB_USER and INFLUXDB_PASSWORD:
-            logging.debug('InfluxDBClient 1')        
+            logging.debug('InfluxDBClient 1')
             influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, INFLUXDB_PORT, INFLUXDB_USER, INFLUXDB_PASSWORD, None)
         else:
-            logging.debug('InfluxDBClient 2')        
+            logging.debug('InfluxDBClient 2')
             influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, INFLUXDB_PORT)
     except:
         sys.stderr.write("Can't create influx connection\n")
         sys.exit(1)
-        
-    logging.debug(influxdb_client)        
+
+    logging.debug(influxdb_client)
     logging.debug('Connecting to the database %s' % INFLUXDB_DATABASE)
 
     result = influxdb_client.query(INFLUXDB_SQL)
     logging.debug("Result: {0}".format(result))
 
-    
+
 if __name__ == '__main__':
         main()
