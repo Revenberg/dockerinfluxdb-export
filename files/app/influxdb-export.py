@@ -63,7 +63,7 @@ def exporting(day):
 
     f = open("/data/backup/" + todayyyymmdd + ".json", "w")
     for row in result.get_points():
-        f.writeln(json.dumps(row) + '\n')
+        f.write(json.dumps(row) + '\n')
     f.close()
 
     # create metric if does not exist
