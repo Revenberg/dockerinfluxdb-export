@@ -57,18 +57,19 @@ def export(day):
         f.write(json.dumps(row))
     f.close()
 
-def exports():
+def job():
     print("I'm working...")
-    export(1)
-    export(0)
 
 def main():
-    schedule.every().hour.do(exports)
+    schedule.every().hour.do(export, export='1')
+    schedule.every().hour.do(export, export='0')
+    schedule.every(3).minutes.do(job)
 
+    logging.debug( schedule.get_jobs() )
+    
     while True:
         schedule.run_pending()
-        logging.debug("test")
-        time.sleep(60)
+        time.sleep(1)
     
 if __name__ == '__main__':
         main()
