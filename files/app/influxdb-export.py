@@ -53,19 +53,16 @@ def exporting(day):
 
     f = open("/data/backup/" + todayyyymmdd + ".json", "w")
     for row in result.get_points():
-        logging.debug(json.dumps(row))
-        f.write(json.dumps(row))
+        f.writeln(json.dumps(row) + '\n')
     f.close()
 
 def job():
     print("I'm working...")
 
 def main():
-    schedule.every().hour.do(exporting, day=1)
+    schedule.every(6).hour.do(exporting, day=1)
     schedule.every().hour.do(exporting, day=0)
-    schedule.every(3).minutes.do(job)
-    schedule.run_all()
-
+    
     logging.debug(datetime.today())
     logging.debug( schedule.get_jobs() )
 
@@ -75,3 +72,4 @@ def main():
     
 if __name__ == '__main__':
         main()
+        
