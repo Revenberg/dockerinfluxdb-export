@@ -43,7 +43,7 @@ def main():
     #- timedelta(days=1)
     todayyyymmdd = today.strftime('%Y-%m-%d')
 
-    q = INFLUXDB_SQL + (INFLUXDB_WHERE  % todayyyymmdd)
+    q = INFLUXDB_SQL + (INFLUXDB_WHERE  % (todayyyymmdd, todayyyymmdd))
     logging.debug(q)
     result = influxdb_client.query(q)
     logging.debug("Result: {0}".format(result))
