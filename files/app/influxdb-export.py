@@ -65,8 +65,9 @@ def main():
     schedule.every().hour.do(export, export='0')
     schedule.every(3).minutes.do(job)
 
+    logging.debug(datetime.today())
     logging.debug( schedule.get_jobs() )
-    
+
     while True:
         schedule.run_pending()
         time.sleep(1)
