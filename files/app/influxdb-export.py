@@ -1,18 +1,13 @@
 #!/usr/bin/env python3
 """influxdb-export"""
 
-import json
 import logging
 import sys
 import os
+import datetime
 import time
-
-import time
-import argparse # for arg parsing...
-import json # for parsing json
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-from datetime import datetime # for obtaining the curren time and formatting it
 from influxdb import InfluxDBClient # via apt-get install python-influxdb
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning) # suppress unverified cert warnings
 
@@ -23,7 +18,7 @@ INFLUXDB_USER = os.getenv("INFLUXDB_USERNAME")
 INFLUXDB_PASSWORD = os.getenv("INFLUXDB_PASSWORD")
 INFLUXDB_DATABASE = os.getenv("INFLUXDB_DATABASE", 'mqtt')
 INFLUXDB_SQL = os.getenv("INFLUXDB_SQL", 'select * from "infinite"."reading" ')
-INFLUXDB_WHERE = os.getenv("INFLUXDB_WHERE", ' WHERE time =~ "2021-11-27" ')
+INFLUXDB_WHERE = os.getenv("INFLUXDB_WHERE", ' WHERE time =~ "%s" ')
 
 LOGFORMAT = '%(asctime)-15s %(message)s'
 
@@ -47,7 +42,9 @@ def main():
 
     logging.debug('Connecting to the database %s' % INFLUXDB_DATABASE)
 
-    result = influxdb_client.query(INFLUXDB_SQL + INFLUXDB_WHERE)
+    from datetime import datetime
+    today = datetime.today().strftime('%Y-%m-%d')
+    result = influxdb_client.query(INFLUXDB_SQL + (INFLUXDB_WHERE % today))
     logging.debug("Result: {0}".format(result))
 
 
