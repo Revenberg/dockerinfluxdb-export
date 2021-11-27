@@ -2,6 +2,7 @@
 """influxdb-export"""
 
 import logging
+import json
 import sys
 import os
 from datetime import datetime, timedelta
@@ -45,12 +46,12 @@ def main():
     q = INFLUXDB_SQL + (INFLUXDB_WHERE  % (todayyyymmdd, todayyyymmdd))
     logging.debug(q)
     result = influxdb_client.query(q)
-    logging.debug("Result: {0}".format(result))
+#    logging.debug("Result: {0}".format(result))
 
     f = open(todayyyymmdd + ".json", "w")
     for row in result.get_points():
-        logging.debug(row)
-        f.write(row)
+        logging.debug(json.dumps(row))
+        f.write(json.dumps((row))
     
     f.close()
 
